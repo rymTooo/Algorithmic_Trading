@@ -34,21 +34,21 @@ class TradingAgent:
         return self.cash + (self.position * price)
     
 
-    def fetch_historical_data(symbol, interval, limit=1000):
-        """Fetch historical data from Binance API."""
-        url = f'https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}&limit={limit}'
-        response = requests.get(url)
-        data = response.json()
-        df = pd.DataFrame(data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time',
-        'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume',
-        'taker_buy_quote_asset_volume', 'ignore'])
-        df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
-        df.set_index('timestamp', inplace=True)
-        df = df[['open', 'high', 'low', 'close', 'volume']].astype(float)
-        return df
-    
+def fetch_historical_data(symbol, interval, limit=1000):
+    """Fetch historical data from Binance API."""
+    url = f'https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}&limit={limit}'
+    response = requests.get(url)
+    data = response.json()
+    df = pd.DataFrame(data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time',
+    'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume',
+    'taker_buy_quote_asset_volume', 'ignore'])
+    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+    df.set_index('timestamp', inplace=True)
+    df = df[['open', 'high', 'low', 'close', 'volume']].astype(float)
+    return df
 
-    def calculate_performance_metrics(initial_cash, final_value):
-        """Calculate performance metrics."""
-        total_return = (final_value - initial_cash) / initial_cash
-        return {"Total Return": total_return}
+
+def calculate_performance_metrics(initial_cash, final_value):
+    """Calculate performance metrics."""
+    total_return = (final_value - initial_cash) / initial_cash
+    return {"Total Return": total_return}
