@@ -16,7 +16,8 @@ class TradingAgent:
     
 
     def trade(self, price, signal):
-        """Execute trades based on the signal."""
+        """Execute trades based on the signal.
+        \n signal: 1 = Buy, -1 = Sell, other = Do nothing"""
         if signal == 1: # Buy
             self.position += self.cash / price
             self.cash = 0
@@ -35,7 +36,9 @@ class TradingAgent:
     
 
 def fetch_historical_data(symbol, interval, limit=1000):
-    """Fetch historical data from Binance API."""
+    """Fetch historical data from Binance API.
+    \nReturn Dataframe with ['open', 'high', 'low', 'close', 'volume'] columns"""
+
     url = f'https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}&limit={limit}'
     response = requests.get(url)
     data = response.json()
