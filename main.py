@@ -37,3 +37,9 @@ print(f"Portfolio Value for 1m Interval: {portfolio_value_1m}")
 print(f"Portfolio Value for 1h Interval: {portfolio_value_1h}")
 print(f"Portfolio Value for 4h Interval: {portfolio_value_4h}")
 print(f"Portfolio Value for 1d Interval: {portfolio_value_1d}")
+
+print(f"Portfolio Return for 1m Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1m)["Total Return"]*100, " %")
+print(f"Portfolio Return for 1h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1h)["Total Return"]*100, " %")
+print(f"Portfolio Return for 4h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_4h)["Total Return"]*100, " %")
+print(f"Portfolio Return for 1d Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1d)["Total Return"]*100, " %")
+
