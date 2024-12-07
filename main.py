@@ -20,17 +20,21 @@ df_1h = fetch_historical_data('BTCUSDT', '1h')
 df_4h = fetch_historical_data('BTCUSDT', '4h')
 df_1d = fetch_historical_data('BTCUSDT', '1d')
 
+
 # Initialize agents
 agent_1m = Agent_1m()
 agent_1h = Agent_1h()
 agent_4h = Agent_4h()
 agent_1d = Agent_1d()
 
+
 # Backtest each agent
 portfolio_value_1m = backtest(agent_1m, df_1m)
 portfolio_value_1h = backtest(agent_1h, df_1h)
 portfolio_value_4h = backtest(agent_4h, df_4h)
 portfolio_value_1d = backtest(agent_1d, df_1d)
+
+agent_1d.plot_past_data(agent_1d.past_data, df_1d.index)
 
 # Print results
 print(f"Portfolio Value for 1m Interval: {portfolio_value_1m}")

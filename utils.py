@@ -51,7 +51,7 @@ class TradingAgent:
         rsi = 100 - (100 / (1 + rs))
         return rsi
     
-    def calculate_ma(self, data, window=20, column='Close'):
+    def calculate_ma(self, data, window=20):
         """
         Calculate the moving average (MA) for the specified column in the dataset.
 
@@ -61,8 +61,8 @@ class TradingAgent:
         # if want to modify to return last value only
         # ma = data[column].rolling(window=window).mean()
         # return ma.iloc[-1]
-        data[f'MA_{window}'] = data[column].rolling(window=window,min_periods=1).mean()
-        return data
+        ma = data['Close'].rolling(window=window,min_periods=1).mean()
+        return ma
 
     def calculate_stochastic(self, data, lookback_window=14):
         """
