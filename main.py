@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from Agent_1m import Agent_1m
 from Agent_1h import Agent_1h
 from Agent_4h import Agent_4h
@@ -18,6 +19,23 @@ def backtest(agent, data):
         agent.trade(price, signal)
     return agent.get_portfolio_value(data['close'].iloc[-1])
 
+def plot_historical_data(dataframes, timeframes, title="BTCUSDT Historical Data"):
+    plt.figure(figsize=(15, 10))
+    
+    for i in range(len(dataframes)):
+        df = dataframes[i]
+        tf = timeframes[i]
+        plt.subplot(2, 2, i+1)  # Create a 2x2 grid of plots
+        plt.plot(df['close'], label=f'Close Price ({tf})', linewidth=1)
+        plt.title(f'{tf} Timeframe')
+        plt.xlabel('Timestamp')
+        plt.ylabel('Price (USD)')
+        plt.legend()
+        plt.grid()
+    
+    plt.suptitle(title, fontsize=16)
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust layout to fit the title
+    plt.show()
 
 # Fetch data for different intervals
 df_1m = fetch_historical_data('BTCUSDT', '1m')
@@ -25,16 +43,20 @@ df_1h = fetch_historical_data('BTCUSDT', '1h')
 df_4h = fetch_historical_data('BTCUSDT', '4h')
 df_1d = fetch_historical_data('BTCUSDT', '1d')
 
+dataframes = [df_1m, df_1h, df_4h, df_1d]
+timeframes = ['1 Minute', '1 Hour', '4 Hour', '1 Day']
+plot_historical_data(dataframes, timeframes)
+
 # Initialize agents
 agent_1m = Agent_1m()
 agent_1h = Agent_1h()
 agent_4h = Agent_4h()
 agent_1d = Agent_1d()
 
-agent_1m_SMA= Agent_1m_SMA(short_window=5, long_window=20)
-agent_1h_SMA= Agent_1h_SMA(short_window=5, long_window=20)
-agent_4h_SMA= Agent_4h_SMA(short_window=5, long_window=20)
-agent_1d_SMA= Agent_1d_SMA(short_window=5, long_window=20)
+agent_1m_SMA= Agent_1m_SMA(short_window=10, long_window=50)
+agent_1h_SMA= Agent_1h_SMA(short_window=10, long_window=50)
+agent_4h_SMA= Agent_4h_SMA(short_window=10, long_window=50)
+agent_1d_SMA= Agent_1d_SMA(short_window=10, long_window=50)
 
 # Backtest each agent
 # portfolio_value_1m = backtest(agent_1m, df_1m)
