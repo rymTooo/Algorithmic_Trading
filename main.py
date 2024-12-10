@@ -2,14 +2,19 @@ from Agent_1m import Agent_1m
 from Agent_1h import Agent_1h
 from Agent_4h import Agent_4h
 from Agent_1d import Agent_1d
+from Agent_1m_SMA import Agent_1m_SMA
+from Agent_1h_SMA import Agent_1h_SMA
+from Agent_4h_SMA import Agent_4h_SMA
+from Agent_1d_SMA import Agent_1d_SMA
 from utils import fetch_historical_data, calculate_performance_metrics
 
 
 def backtest(agent, data):
     """Backtest a trading agent."""
     for timestamp, row in data.iterrows():
-        price = row['close'] # Use the closing price for trades
-        signal = agent.generate_signals(row)
+        current_data = data.loc[:timestamp]
+        price = row['close']
+        signal = agent.generate_signals(current_data)
         agent.trade(price, signal)
     return agent.get_portfolio_value(data['close'].iloc[-1])
 
@@ -26,20 +31,39 @@ agent_1h = Agent_1h()
 agent_4h = Agent_4h()
 agent_1d = Agent_1d()
 
+agent_1m_SMA= Agent_1m_SMA(short_window=5, long_window=20)
+agent_1h_SMA= Agent_1h_SMA(short_window=5, long_window=20)
+agent_4h_SMA= Agent_4h_SMA(short_window=5, long_window=20)
+agent_1d_SMA= Agent_1d_SMA(short_window=5, long_window=20)
+
 # Backtest each agent
-portfolio_value_1m = backtest(agent_1m, df_1m)
-portfolio_value_1h = backtest(agent_1h, df_1h)
-portfolio_value_4h = backtest(agent_4h, df_4h)
-portfolio_value_1d = backtest(agent_1d, df_1d)
+# portfolio_value_1m = backtest(agent_1m, df_1m)
+# portfolio_value_1h = backtest(agent_1h, df_1h)
+# portfolio_value_4h = backtest(agent_4h, df_4h)
+# portfolio_value_1d = backtest(agent_1d, df_1d)
+
+portfolio_value_1m_SMA = backtest(agent_1m_SMA, df_1m)
+portfolio_value_1h_SMA = backtest(agent_1h_SMA, df_1h)
+portfolio_value_4h_SMA = backtest(agent_4h_SMA, df_4h)
+portfolio_value_1d_SMA = backtest(agent_1d_SMA, df_1d)
 
 # Print results
-print(f"Portfolio Value for 1m Interval: {portfolio_value_1m}")
-print(f"Portfolio Value for 1h Interval: {portfolio_value_1h}")
-print(f"Portfolio Value for 4h Interval: {portfolio_value_4h}")
-print(f"Portfolio Value for 1d Interval: {portfolio_value_1d}")
+# print(f"Portfolio Value for 1m Interval: {portfolio_value_1m}")
+# print(f"Portfolio Value for 1h Interval: {portfolio_value_1h}")
+# print(f"Portfolio Value for 4h Interval: {portfolio_value_4h}")
+# print(f"Portfolio Value for 1d Interval: {portfolio_value_1d}")
 
-print(f"Portfolio Return for 1m Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1m)["Total Return"]*100, " %")
-print(f"Portfolio Return for 1h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1h)["Total Return"]*100, " %")
-print(f"Portfolio Return for 4h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_4h)["Total Return"]*100, " %")
-print(f"Portfolio Return for 1d Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1d)["Total Return"]*100, " %")
+print(f"Portfolio Value for 1m SMA Interval: {portfolio_value_1m_SMA}")
+print(f"Portfolio Value for 1h SMA Interval: {portfolio_value_1h_SMA}")
+print(f"Portfolio Value for 4h SMA Interval: {portfolio_value_4h_SMA}")
+print(f"Portfolio Value for 1d SMA Interval: {portfolio_value_1d_SMA}")
 
+# print(f"Portfolio Return for 1m Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1m)["Total Return"]*100, " %")
+# print(f"Portfolio Return for 1h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1h)["Total Return"]*100, " %")
+# print(f"Portfolio Return for 4h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_4h)["Total Return"]*100, " %")
+# print(f"Portfolio Return for 1d Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1d)["Total Return"]*100, " %")
+
+print(f"Portfolio Return for 1m SMA Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1m_SMA)["Total Return"]*100, " %")
+print(f"Portfolio Return for 1h SMA Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1h_SMA)["Total Return"]*100, " %")
+print(f"Portfolio Return for 4h SMA Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_4h_SMA)["Total Return"]*100, " %")
+print(f"Portfolio Return for 1d SMA Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1d_SMA)["Total Return"]*100, " %")
