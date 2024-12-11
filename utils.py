@@ -18,16 +18,19 @@ class TradingAgent:
     def trade(self, price, signal):
         """Execute trades based on the signal.
         \n signal: 1 = Buy, -1 = Sell, other = Do nothing"""
-        if signal == 1: # Buy
-            self.position += self.cash / price
-            self.cash = 0
-            self.history.append(f"Buy at {price}")
-        elif signal == -1: # Sell
-            self.cash += self.position * price
-            self.position = 0
-            self.history.append(f"Sell at {price}")
-        # Hold: Do nothing
-        self.history.append(f"Hold at {price}")
+        if signal == 1:  # Buy
+            if self.cash > 0:  # Ensure there's cash to buy
+                units_to_buy = self.cash / price
+                self.position += units_to_buy
+                self.cash = 0
+                self.history.append(f"Buy at {price:.2f}, units: {units_to_buy:.6f}")
+        elif signal == -1:  # Sell
+            if self.position > 0:  # Ensure there's a position to sell
+                self.cash += self.position * price
+                self.history.append(f"Sell at {price:.2f}, position: {self.position:.6f}")
+                self.position = 0
+        else:  # Hold: Do nothing
+            self.history.append(f"Hold at {price:.2f}")
 
 
     def get_portfolio_value(self, price):
