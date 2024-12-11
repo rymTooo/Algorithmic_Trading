@@ -18,7 +18,7 @@ def backtest(agent, data):
 df_1m = fetch_historical_data('BTCUSDT', '1m')
 df_1h = fetch_historical_data('BTCUSDT', '1h')
 df_4h = fetch_historical_data('BTCUSDT', '4h')
-df_1d = fetch_historical_data('BTCUSDT', '1d')
+df_1d = fetch_historical_data('BTCUSDT', '1d',200)
 
 
 # Initialize agents
@@ -34,16 +34,23 @@ portfolio_value_1h = backtest(agent_1h, df_1h)
 portfolio_value_4h = backtest(agent_4h, df_4h)
 portfolio_value_1d = backtest(agent_1d, df_1d)
 
-agent_1d.plot_past_data(agent_1d.past_data, df_1d.index)
+# benchmark
+print("first value : ", agent_1d.past_data["Close"].iloc[0])
+print("last value : ", agent_1d.past_data["Close"].iloc[-1])
+print("buy and hold return : ", (agent_1d.past_data["Close"].iloc[-1]/agent_1d.past_data["Close"].iloc[0]-1)*100, "%")
+
+
 
 # Print results
-print(f"Portfolio Value for 1m Interval: {portfolio_value_1m}")
-print(f"Portfolio Value for 1h Interval: {portfolio_value_1h}")
-print(f"Portfolio Value for 4h Interval: {portfolio_value_4h}")
-print(f"Portfolio Value for 1d Interval: {portfolio_value_1d}")
+# print(f"Portfolio Value for 1m Interval: {portfolio_value_1m}")
+# print(f"Portfolio Value for 1h Interval: {portfolio_value_1h}")
+# print(f"Portfolio Value for 4h Interval: {portfolio_value_4h}")
+# print(f"Portfolio Value for 1d Interval: {portfolio_value_1d}")
 
-print(f"Portfolio Return for 1m Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1m)["Total Return"]*100, " %")
-print(f"Portfolio Return for 1h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1h)["Total Return"]*100, " %")
-print(f"Portfolio Return for 4h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_4h)["Total Return"]*100, " %")
+# print(f"Portfolio Return for 1m Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1m)["Total Return"]*100, " %")
+# print(f"Portfolio Return for 1h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1h)["Total Return"]*100, " %")
+# print(f"Portfolio Return for 4h Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_4h)["Total Return"]*100, " %")
 print(f"Portfolio Return for 1d Interval: ",calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_1d)["Total Return"]*100, " %")
+# print(agent_1d.past_data)
 
+agent_1d.plot_past_data(agent_1d.past_data, df_1d.index)
