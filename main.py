@@ -89,8 +89,8 @@ volatility_threshold = 1.5
 lookback = 200
 
 # Initialize agents for each strategy
-agent_momentum_1m = Agent_Momentum(20)
-agent_trendfollowing_1m = Agent_TrendFollowing(20)
+agent_momentum_1m = Agent_Momentum(400)
+agent_trendfollowing_1m = Agent_TrendFollowing(25)
 agent_riskonriskoff_1m = Agent_RiskOnRiskOff(threshold)
 agent_arbitrage_1m = Agent_Arbitrage(0.01)
 agent_blackswan_1m = Agent_BlackSwan(z_score_threshold)
@@ -123,8 +123,8 @@ portfolio_value_markettiming_1m = backtest(agent_markettiming_1m, df_1m)
 portfolio_value_inversevolatility_1m = backtest(agent_inversevolatility_1m, df_1m)
 
 # Repeat the same for 1h, 4h, 1d intervals
-agent_momentum_1h = Agent_Momentum(50)
-agent_trendfollowing_1h = Agent_TrendFollowing(50)
+agent_momentum_1h = Agent_Momentum(100)
+agent_trendfollowing_1h = Agent_TrendFollowing(25)
 agent_riskonriskoff_1h = Agent_RiskOnRiskOff(threshold)
 agent_arbitrage_1h = Agent_Arbitrage(0.01)
 agent_blackswan_1h = Agent_BlackSwan(z_score_threshold)
@@ -140,8 +140,8 @@ portfolio_value_markettiming_1h = backtest(agent_markettiming_1h, df_1h)
 portfolio_value_inversevolatility_1h = backtest(agent_inversevolatility_1h, df_1h)
 
 # Repeat for 4h
-agent_momentum_4h = Agent_Momentum(100)
-agent_trendfollowing_4h = Agent_TrendFollowing(100)
+agent_momentum_4h = Agent_Momentum(80)
+agent_trendfollowing_4h = Agent_TrendFollowing(75)
 agent_riskonriskoff_4h = Agent_RiskOnRiskOff(threshold)
 agent_arbitrage_4h = Agent_Arbitrage(0.01)
 agent_blackswan_4h = Agent_BlackSwan(z_score_threshold)
@@ -157,8 +157,8 @@ portfolio_value_markettiming_4h = backtest(agent_markettiming_4h, df_4h)
 portfolio_value_inversevolatility_4h = backtest(agent_inversevolatility_4h, df_4h)
 
 # Repeat for 1d
-agent_momentum_1d = Agent_Momentum(lookback)
-agent_trendfollowing_1d = Agent_TrendFollowing(lookback)
+agent_momentum_1d = Agent_Momentum(250)
+agent_trendfollowing_1d = Agent_TrendFollowing(100)
 agent_riskonriskoff_1d = Agent_RiskOnRiskOff(threshold)
 agent_arbitrage_1d = Agent_Arbitrage(0.01)
 agent_blackswan_1d = Agent_BlackSwan(z_score_threshold)
@@ -314,15 +314,15 @@ print(f"Portfolio Return for 1d MR_Stat Interval: ",
 #       calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_xgboost_1d)["Total Return"] * 100, " %")
 
 # Define agents for different intervals
-agent_bollinger_1m = Agent_BollingerBands(750)
-agent_bollinger_1h = Agent_BollingerBands(75)
+agent_bollinger_1m = Agent_BollingerBands(75)
+agent_bollinger_1h = Agent_BollingerBands(25)
 agent_bollinger_4h = Agent_BollingerBands(250)
-agent_bollinger_1d = Agent_BollingerBands(100)
+agent_bollinger_1d = Agent_BollingerBands(50)
 
-agent_macrossover_1m = Agent_MACrossover(short_lookback=10, long_lookback=100)
-agent_macrossover_1h = Agent_MACrossover(short_lookback=20, long_lookback=100)
-agent_macrossover_4h = Agent_MACrossover(short_lookback=50, long_lookback=400)
-agent_macrossover_1d = Agent_MACrossover(short_lookback=100, long_lookback=600)
+agent_macrossover_1m = Agent_MACrossover(short_lookback=5, long_lookback=75)
+agent_macrossover_1h = Agent_MACrossover(short_lookback=10, long_lookback=25)
+agent_macrossover_4h = Agent_MACrossover(short_lookback=25, long_lookback=250)
+agent_macrossover_1d = Agent_MACrossover(short_lookback=50, long_lookback=250)
 
 agent_donchian_1m = Agent_Donchian(5)
 agent_donchian_1h = Agent_Donchian(20)
@@ -398,14 +398,14 @@ print(f"Portfolio Return for RSI 4h: ",
 print(f"Portfolio Return for RSI 1d: ", 
       calculate_performance_metrics(initial_cash=100000, final_value=portfolio_value_rsi_1d)["Total Return"] * 100, "%")
 
-# lookback_periods = [1,2,5, 10, 25, 50, 75, 100, 200,250,500,750,1000]
+# lookback_periods = [10, 25, 50, 75, 100, 200,250,300,350,400,500,750,1000]
 
 # # Initialize agents with different lookback values
 # agents = {
-#     "1m": [Agent_BollingerBands(period) for period in lookback_periods],
-#     "1h": [Agent_BollingerBands(period) for period in lookback_periods],
-#     "4h": [Agent_BollingerBands(period) for period in lookback_periods],
-#     "1d": [Agent_BollingerBands(period) for period in lookback_periods]
+#     "1m": [Agent_TrendFollowing(period) for period in lookback_periods],
+#     "1h": [Agent_TrendFollowing(period) for period in lookback_periods],
+#     "4h": [Agent_TrendFollowing(period) for period in lookback_periods],
+#     "1d": [Agent_TrendFollowing(period) for period in lookback_periods]
 # }
 
 # # Backtest the agents for each timeframe and calculate portfolio returns

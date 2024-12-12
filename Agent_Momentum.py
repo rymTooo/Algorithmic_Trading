@@ -225,8 +225,8 @@ class Agent_BollingerBands(TradingAgent):
         current_price = data['close'].iloc[-1]
 
         # Generate signals
-        if current_price > upper_band and self.trigger <= 0:
-            self.trigger = 1
+        if current_price > upper_band and self.trigger >= 0:
+            self.trigger = -1
             return -1  # Sell
         elif current_price < lower_band and self.trigger <= 0:
             self.trigger = 1
@@ -250,8 +250,8 @@ class Agent_MACrossover(TradingAgent):
         long_ma = data['close'].rolling(window=self.long_lookback).mean().iloc[-1]
 
         # Generate signals
-        if short_ma > long_ma and self.trigger <= 0:
-            self.trigger = 1
+        if short_ma > long_ma and self.trigger >= 0:
+            self.trigger = -1
             return 1  # Buy
         elif short_ma < long_ma and self.trigger <= 0:
             self.trigger = 1
@@ -275,8 +275,8 @@ class Agent_Donchian(TradingAgent):
         current_price = data['close'].iloc[-1]
 
         # Generate signals
-        if current_price > upper_band and self.trigger <= 0:
-            self.trigger = 1
+        if current_price > upper_band and self.trigger >= 0:
+            self.trigger = -1
             return 1  # Buy
         elif current_price < lower_band and self.trigger <= 0:
             self.trigger = 1
@@ -304,8 +304,8 @@ class Agent_RSI(TradingAgent):
         rsi = 100 - (100 / (1 + rs))
 
         # Generate signals
-        if rsi.iloc[-1] < self.oversold and self.trigger <= 0:
-            self.trigger = 1
+        if rsi.iloc[-1] < self.oversold and self.trigger >= 0:
+            self.trigger = -1
             return 1  # Buy
         elif rsi.iloc[-1] > self.overbought and self.trigger <= 0:
             self.trigger = 1
