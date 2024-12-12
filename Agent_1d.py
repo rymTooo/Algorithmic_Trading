@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.patches import Rectangle
 from constant import *
+import time
 
 class Agent_1d(TradingAgent):
     """Trading Agent for 1-day interval."""
@@ -113,8 +114,10 @@ class Agent_1d(TradingAgent):
         self.calculate_macd2(self.past_data)
         self.calculate_stochastic2(self.past_data)
         self.calculate_adx2(self.past_data)
+        
         # self.past_data.drop(['Open', 'High', 'Low'], axis=1, inplace=True)
-        self.past_data.to_csv('./data/your_file.csv', index=False)
+        
+        # self.past_data.to_csv('./data/your_file.csv', index=False)
         sto_signal = 0
         macd_signal = 0
 
