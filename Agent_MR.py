@@ -24,8 +24,8 @@ class Agent_MR(TradingAgent):
         lower_threshold = mean - std_dev
 
         # Generate signals
-        if current_price > upper_threshold and self.trigger <= 0:
-            self.trigger = 1
+        if current_price > upper_threshold and self.trigger >= 0:
+            self.trigger = -1
             return -1  # Sell
         elif current_price < lower_threshold and self.trigger <= 0:
             self.trigger = 1
