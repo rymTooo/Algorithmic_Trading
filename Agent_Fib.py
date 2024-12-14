@@ -2,11 +2,6 @@ from utils import TradingAgent
 class Agent_Fib(TradingAgent):
     def __init__(self, lookback):
         super().__init__()
-        """
-        Initialize the trading agent.
-        :param lookback: Number of periods for identifying high and low prices.
-        :param initial_cash: Starting cash amount.
-        """
         self.lookback = lookback
         self.trigger = 0
     
@@ -28,11 +23,6 @@ class Agent_Fib(TradingAgent):
         }
 
     def generate_signals(self, data):
-        """
-        Generate trading signals based on Fibonacci retracement levels.
-        :param data: DataFrame with price data (must include 'close').
-        :return: Signal: 1 = Buy, -1 = Sell, 0 = Hold.
-        """
         if len(data) < self.lookback:
             return 0  # Not enough data to calculate levels
 

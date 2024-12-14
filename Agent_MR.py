@@ -2,7 +2,6 @@ from utils import TradingAgent
 
 
 class Agent_MR(TradingAgent):
-    """Trading Agent for 1-minute interval."""
     def __init__(self, lookback):
         super().__init__()
         self.lookback = lookback

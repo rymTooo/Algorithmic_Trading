@@ -14,10 +14,6 @@ class Agent_Grid(TradingAgent):
         return np.linspace(self.lower_bound, self.upper_bound, self.grid_size)
 
     def generate_signals(self, data):
-        """
-        Generate trading signals based on grid levels.
-        signal: 1 = Buy, -1 = Sell, 0 = Hold
-        """
         current_price = data['close'].iloc[-1]  # Get the most recent price
 
         if any(current_price <= level for level in self.grid_levels):  # Price falls to a grid level
